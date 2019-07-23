@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -25,7 +27,6 @@ public class Fivebandresistor extends JFrame {
 	static Integer r,g,b;
 	int toleranceindex;
 	static boolean fromtext;
-	static SMDresistor smd;
 	
 	static JPanel firstlinecolour ,secondlinecolour,thirdlinecolour,fourthlinecolour,fifthlinecolour,tolerancecolour;
 	JLabel lblNewLabel;
@@ -69,7 +70,7 @@ public class Fivebandresistor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Fivebandresistor(/*Resistorfinder obj,SMDresistor smd*/) {
+	public Fivebandresistor() {
 	
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -180,7 +181,6 @@ public class Fivebandresistor extends JFrame {
 		resistortype.setSelectedIndex(1);
 		Fivebandresistor fiveband=this;
 		
-		this.smd=smd;
 
 		resistortype.addItemListener(new ItemListener() {
 
@@ -188,42 +188,11 @@ public class Fivebandresistor extends JFrame {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				MainClass.selectFrameOnFiveband(fiveband, resistortype.getSelectedIndex());
-				/*
-				dispose();
-				if(resistortype.getSelectedIndex()==0) {
-					obj.resistortype.setSelectedIndex(0);
-					obj.show();
-					}
-				else if (resistortype.getSelectedIndex()==2) {
-					if(smd==null)
-						fiveband.smd=new SMDresistor(obj,fiveband);
-					fiveband.smd.setVisible(true);
-					fiveband.smd.resistortype.setSelectedIndex(2);
-				}*/
-				
+				MainClass.selectFrameOnFiveband(fiveband, resistortype.getSelectedIndex());	
 				
 			}
 		});
-		
-		
-		/*
-		 if(resistortype.getSelectedIndex()==1) {
-				if(anotherresistor==null)
-					anotherresistor= new Fivebandresistor(resistortype,obj,smd);
-				anotherresistor.setVisible(true);
-				anotherresistor.resistortype.setSelectedIndex(1);
-
-			}
-			else if (resistortype.getSelectedIndex()==2) {
-				if(smd==null)
-					smd= new SMDresistor(resistortype,obj,anotherresistor);
-				smd.setVisible(true);
-				smd.resistortype.setSelectedIndex(2);
-			}
-		 */
-		
-		
+			
 		
 		itemListener= new ItemListener() {
 			
@@ -276,7 +245,7 @@ public class Fivebandresistor extends JFrame {
 		
 		
 		
-		ohmwrite.addItemListener(new ItemListener() {
+		/*ohmwrite.addItemListener(new ItemListener() {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -285,6 +254,18 @@ public class Fivebandresistor extends JFrame {
 						Calculations.calculatefromwrite(lines,textField);
 				fromtext=false;
 			}
+		});*/
+		
+		ohmwrite.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyChar()==KeyEvent.VK_ENTER)
+					if (textField.getText() != null) 
+						Calculations.calculatefromwrite(lines, textField); 
+
+			}
 		});
+
+		
 	}
 }

@@ -22,15 +22,18 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.SwingConstants;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import javax.swing.JLayeredPane;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 public class Resistorfinder extends JFrame {
 	static Integer r, g, b;
 	int toleranceindex;
 	static boolean fromtext;
 
-	static JPanel firstlinecolour, secondlinecolour, thirdlinecolour, fourthlinecolour, tolerancecolour;
+	static JPanel firstlinecolour, secondlinecolour, thirdlinecolour, tolerancecolour;
 	JLabel lblNewLabel;
 	static JComboBox<String> ohmwrite;
 	static JComboBox<String> firstline;
@@ -55,9 +58,6 @@ public class Resistorfinder extends JFrame {
 	JComboBox resistortype;
 
 	static int i = 0;
-
-	static Fivebandresistor anotherresistor;
-	static SMDresistor smd;
 	
 	
 	ArrayList<JComboBox<String>> lines = new ArrayList<JComboBox<String>>();
@@ -66,22 +66,6 @@ public class Resistorfinder extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 
-	/**
-	 * Launch the application.
-	 */
-	
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					resistor_finder frame = new resistor_finder();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
 
 	/**
 	 * Create the frame.
@@ -113,11 +97,6 @@ public class Resistorfinder extends JFrame {
 		thirdlinecolour.setBackground(new Color(0, 0, 0));
 		thirdlinecolour.setBounds(257, 95, 10, 98);
 		contentPane.add(thirdlinecolour);
-
-		fourthlinecolour = new JPanel();
-		fourthlinecolour.setBackground(new Color(239, 228, 176));
-		fourthlinecolour.setBounds(306, 95, 10, 98);
-		contentPane.add(fourthlinecolour);
 
 		tolerancecolour = new JPanel();
 		tolerancecolour.setForeground(Color.BLACK);
@@ -163,7 +142,7 @@ public class Resistorfinder extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(10);
 
-		// arraylist denemesi yapılıyor
+		
 		lines.add(firstline);
 		lines.add(secondline);
 		lines.add(thirdline);
@@ -173,7 +152,7 @@ public class Resistorfinder extends JFrame {
 		linecolours.add(secondlinecolour);
 		linecolours.add(thirdlinecolour);
 
-		resistortype = /*resistorselect;*/new JComboBox(resistortypes);
+		resistortype = new JComboBox(resistortypes);
 		resistortype.setBounds(20, 11, 99, 32);
 		contentPane.add(resistortype);
 		
@@ -183,23 +162,7 @@ public class Resistorfinder extends JFrame {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-			//dispose();
 				MainClass.selectFrameOnFourband(obj, resistortype.getSelectedIndex());
-			/*if(resistortype.getSelectedIndex()==1) {
-				if(anotherresistor==null)
-					anotherresistor= new Fivebandresistor(obj,smd);
-				anotherresistor.setVisible(true);
-				anotherresistor.resistortype.setSelectedIndex(1);
-
-			}
-			else if (resistortype.getSelectedIndex()==2) {
-				if(smd==null)
-					smd= new SMDresistor(obj,anotherresistor);
-				smd.setVisible(true);
-				smd.resistortype.setSelectedIndex(2);
-			}
-
-				*/
 			}
 		});
 
@@ -245,17 +208,28 @@ public class Resistorfinder extends JFrame {
 			}
 		});
 
-		ohmwrite.addItemListener(new ItemListener() {
-
+		/*ohmwrite.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if (textField.getText() != null)
-					if (fromtext)
-						Calculations.calculatefromwrite(lines, textField);
+				if (textField.getText() != null) 
+					if (fromtext) 
+						Calculations.calculatefromwrite(lines, textField); 
 				fromtext = false;
+				
+			}
+		});*/
+		ohmwrite.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyChar()==KeyEvent.VK_ENTER)
+					if (textField.getText() != null) 
+						Calculations.calculatefromwrite(lines, textField); 
+
 			}
 		});
 
+	
+		
 	}
 
 }

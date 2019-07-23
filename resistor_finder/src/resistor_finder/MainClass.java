@@ -42,12 +42,12 @@ public class MainClass {
 			resistor.show();
 		else if(index==1) {
 			if(fiveband==null) 
-				fiveband=new Fivebandresistor(/*resistor,smd*/);
+				fiveband=new Fivebandresistor();
 			fiveband.show();}
 			
 			else {
 				if(smd==null) 
-					smd=new SMDresistor(/*resistor,fiveband*/);
+					smd=new SMDresistor();
 					smd.show();}
 				
 	}

@@ -132,12 +132,10 @@ static void smdTexttoNumber(SMDresistor resistor,String text) {
 	String  temp=null;
 	
 	
-	if((text.indexOf("R")!=-1)||(text.indexOf("r")!=-1)	) {
-		
-		if(text.contains("R")) text.replace('R', '.');// çalışmıyor
-		else text.replace('r', '.');
-		
-		
+	if((text.indexOf("R")!=-1)) {
+		resistor.textonsmdpicture.setText(text);
+		resistor.ohmwrite.setSelectedIndex(0);
+		temp=valueMake(text);
 	}
 	else {
 		Double value= Double.parseDouble(text);
@@ -155,9 +153,9 @@ static void smdTexttoNumber(SMDresistor resistor,String text) {
 		resistor.textonsmdpicture.setText(text);
 		//temp=null;
 		}
-	
-	resistor.numbers.setText(temp);
-	temp=null;
+	if(temp!=null)
+		resistor.numbers.setText(temp);
+	//temp=null;
 	
 	
 	
@@ -212,6 +210,18 @@ static void valueToSmd(SMDresistor smd) {
 	smdfromtext=false;
 }
 
+static String valueMake(String str) {
+	String value="";
+	int i =0;
+	while(i<str.length()) {
+		if(str.charAt(i)=='R')
+			value+='.';
+		else 
+			value+=str.charAt(i);
+		i++;
+	}
+	return value;
+}
 
 
 

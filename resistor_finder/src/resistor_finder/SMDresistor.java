@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,18 +42,9 @@ public class SMDresistor extends JFrame {
 	static boolean fromtext;
 	JLabel textonsmdpicture;
 	
-	//silinecek
-	/*public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		SMDresistor resistor= new SMDresistor();
-		resistor.setVisible(true);
-
-	}*/
 	
 	
-
-	
-	public SMDresistor(/*Resistorfinder fourband,Fivebandresistor fiveband*/) {
+	public SMDresistor() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 573, 573);
 		contentPane = new JPanel();
@@ -59,11 +52,7 @@ public class SMDresistor extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
-
 		resistor= new ImageIcon("images/smd.png").getImage();
-		
-		
 		
 		textonsmdpicture = new JLabel("");
 		textonsmdpicture.setFont(new Font("Tahoma", Font.PLAIN, 50));
@@ -73,8 +62,7 @@ public class SMDresistor extends JFrame {
 		textonsmdpicture.setBackground(Color.WHITE);
 		contentPane.add(textonsmdpicture);
 		
-		
-		
+			
 		smdpicture = new JLabel("");
 		smdpicture.setBackground(Color.WHITE);
 		smdpicture.setIcon(new ImageIcon(resistor));
@@ -106,6 +94,7 @@ public class SMDresistor extends JFrame {
 		contentPane.add(ohmwrite);
 		
 		SMDresistor obj=this;
+		
 		resistortype.setSelectedIndex(2);
 		value_on_smd.addActionListener(new ActionListener() {
 			
@@ -127,7 +116,7 @@ public class SMDresistor extends JFrame {
 			}
 		});
 
-		ohmwrite.addItemListener(new ItemListener() {
+		/*ohmwrite.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -136,14 +125,25 @@ public class SMDresistor extends JFrame {
 						Calculations.valueToSmd(obj);
 				fromtext = false;
 			}
+		});*/
+		ohmwrite.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyChar()==KeyEvent.VK_ENTER)
+					if (numbers.getText() != null)
+						Calculations.valueToSmd(obj);
+			}
 		});
+
 		
-		SMDresistor smd=this;
+		
+		
+		
 		resistortype.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MainClass.selectFrameOnSmd(smd, smd.resistortype.getSelectedIndex());
+				MainClass.selectFrameOnSmd(obj, obj.resistortype.getSelectedIndex());
 				
 			}
 		});
